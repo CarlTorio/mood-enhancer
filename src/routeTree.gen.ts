@@ -13,8 +13,6 @@ import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiPancakeRouteImport } from './routes/api/pancake'
-import { Route as ApiPublicMetaCapiRouteImport } from './routes/api/public/meta-capi'
 
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
@@ -36,32 +34,18 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPancakeRoute = ApiPancakeRouteImport.update({
-  id: '/api/pancake',
-  path: '/api/pancake',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicMetaCapiRoute = ApiPublicMetaCapiRouteImport.update({
-  id: '/api/public/meta-capi',
-  path: '/api/public/meta-capi',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/shop': typeof ShopRoute
   '/thank-you': typeof ThankYouRoute
-  '/api/pancake': typeof ApiPancakeRoute
-  '/api/public/meta-capi': typeof ApiPublicMetaCapiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout': typeof CheckoutRoute
   '/shop': typeof ShopRoute
   '/thank-you': typeof ThankYouRoute
-  '/api/pancake': typeof ApiPancakeRoute
-  '/api/public/meta-capi': typeof ApiPublicMetaCapiRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,34 +53,13 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/shop': typeof ShopRoute
   '/thank-you': typeof ThankYouRoute
-  '/api/pancake': typeof ApiPancakeRoute
-  '/api/public/meta-capi': typeof ApiPublicMetaCapiRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/checkout'
-    | '/shop'
-    | '/thank-you'
-    | '/api/pancake'
-    | '/api/public/meta-capi'
+  fullPaths: '/' | '/checkout' | '/shop' | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/checkout'
-    | '/shop'
-    | '/thank-you'
-    | '/api/pancake'
-    | '/api/public/meta-capi'
-  id:
-    | '__root__'
-    | '/'
-    | '/checkout'
-    | '/shop'
-    | '/thank-you'
-    | '/api/pancake'
-    | '/api/public/meta-capi'
+  to: '/' | '/checkout' | '/shop' | '/thank-you'
+  id: '__root__' | '/' | '/checkout' | '/shop' | '/thank-you'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -104,8 +67,6 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   ShopRoute: typeof ShopRoute
   ThankYouRoute: typeof ThankYouRoute
-  ApiPancakeRoute: typeof ApiPancakeRoute
-  ApiPublicMetaCapiRoute: typeof ApiPublicMetaCapiRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -138,20 +99,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/pancake': {
-      id: '/api/pancake'
-      path: '/api/pancake'
-      fullPath: '/api/pancake'
-      preLoaderRoute: typeof ApiPancakeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/meta-capi': {
-      id: '/api/public/meta-capi'
-      path: '/api/public/meta-capi'
-      fullPath: '/api/public/meta-capi'
-      preLoaderRoute: typeof ApiPublicMetaCapiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
@@ -160,18 +107,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   ShopRoute: ShopRoute,
   ThankYouRoute: ThankYouRoute,
-  ApiPancakeRoute: ApiPancakeRoute,
-  ApiPublicMetaCapiRoute: ApiPublicMetaCapiRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
