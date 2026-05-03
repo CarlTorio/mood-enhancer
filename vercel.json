@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/api/public/meta-capi", "destination": "/api/public/meta-capi" },
+    { "source": "/api/pancake", "destination": "/api/pancake" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
